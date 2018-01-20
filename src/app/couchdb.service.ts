@@ -49,9 +49,17 @@ export class CouchdbService {
   public getBlockByHash(hash: string): Observable<any> {
 
   }
-
+*/
   public getBlockByPreviousHash(previousHash: string): Observable<any> {
 
+    const url = this._couchDBUrl + this._currentDatabase + '/_find';
+    return this.httpClient.post( url, {
+      selector: {
+        'contents.previousBlockHash': {
+          '$eq': previousHash
+        }
+      }
+    });
   }
-  */
+
 }

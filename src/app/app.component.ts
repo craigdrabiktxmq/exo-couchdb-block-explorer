@@ -9,8 +9,17 @@ import { CouchdbService } from './couchdb.service';
 export class AppComponent {
 
   public databases: Array<string>;
+  public selectedDatabase: string;
+  public blocks: Array<any>;
 
   constructor(private couchService: CouchdbService) {
     couchService.getDatabases().subscribe(result => this.databases = result);
+  }
+
+  public onDbChanged(event: any): void {
+    this.selectedDatabase = event.value;
+    this.couchService.currentDatabase = this.selectedDatabase;
+    this.couchService.getBlockByPreviousHash('GENESIS_BLOCK')
+      .subscribe(result => this.blocks = result.docs);
   }
 }
