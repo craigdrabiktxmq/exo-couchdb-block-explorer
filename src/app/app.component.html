@@ -1,43 +1,49 @@
-<mat-card>
-  <mat-card-content>
+<div fxLayout="row" class="wrapper">
+  <div fxFlex="250px" class="controls-column">
     <mat-select placeholder="Select Database" [value]="selectedDatabase" (change)="onDbChanged($event)">
         <mat-option *ngFor="let db of databases" [value]="db">{{db}}</mat-option>
     </mat-select>
-  </mat-card-content>
-</mat-card>
-
-<mat-card *ngFor="let block of blocks">
-  <mat-card-content>
-    <div fxLayout="row" class="block-row">
-      <div fxFlex="150px">index</div>
-      <div class="block-value" fxFlex>{{block.index}}</div>
-    </div>
-    <div fxLayout="row" class="block-row">
-      <div fxFlex="150px">Block Hash</div>
-      <div class="block-value" fxFlex>{{block.hash}}</div>
-    </div>
-    <div fxLayout="row" class="block-row">
-      <div fxFlex="150px">Previous Block Hash</div>
-      <div class="block-value" fxFlex>{{block.contents.previousBlockHash}}</div>
-    </div>
-    <div fxLayout="row" class="block-row">
-      <div fxFlex="150px">Transactions</div>
-      <div class="block-value"></div>
-    </div>
-    <div fxLayout="row" class="block-row">
-      <div fxFlex="150px"></div>
-      <div class="block-value" fxFlex>
-        <div class="block-transaction" *ngFor="let transaction of block.contents.transactions">
-          <div fxLayout="row" class="block-row">
-              <div fxFlex="150px">Transaction Type</div>
-              <div fxFlex>{{transaction.transactionType.value}}</div>
-          </div>
-          <div fxLayout="row" class="block-row">
-            <div fxFlex="150px">Transaction Payload</div>
-            <div fxFlex>{{transaction.payload | json}}</div>
-          </div>
-        </div>
+  </div>
+  <div fxFlex class="results-column">
+    <div *ngIf="blocks">
+      <mat-card *ngFor="let block of blocks">
+          <mat-card-header>
+            <mat-card-title>
+              <div fxLayout="row" class="block-row">
+                <div fxFlex="150px">index</div>
+                <div class="block-value" fxFlex>{{block.index}}</div>
+              </div>
+              <div fxLayout="row" class="block-row">
+                <div fxFlex="150px">Block Hash</div>
+                <div class="block-value" fxFlex>
+                  <a (click)="showBlockByPreviousHash(block.hash)">{{block.hash}}</a>
+                </div>
+              </div>
+              <div fxLayout="row" class="block-row">
+                <div fxFlex="150px">Previous Block Hash</div>
+                <div class="block-value" fxFlex>{{block.contents.previousBlockHash}}</div>
+              </div>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="block-transaction" *ngFor="let transaction of block.contents.transactions">
+              <div *ngIf="transaction">
+                <div fxLayout="row" class="block-row">
+                    <div fxFlex="150px">Transaction Type</div>
+                    <div fxFlex>{{transaction.transactionType.value}}</div>
+                </div>
+                <div fxLayout="row" class="block-row">
+                  <div fxFlex="150px">Transaction Payload</div>
+                  <div fxFlex>{{transaction.payload | json}}</div>
+                </div>
+              </div>
+              <div *ngIf="!transaction" class="block-row">
+                NULL Transaction
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
-    </div>
-  </mat-card-content>
-</mat-card>
+  </div>
+</div>
+

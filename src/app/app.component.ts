@@ -22,4 +22,9 @@ export class AppComponent {
     this.couchService.getBlockByPreviousHash('GENESIS_BLOCK')
       .subscribe(result => this.blocks = result.docs);
   }
+
+  public showBlockByPreviousHash(previousHash: string): void {
+    this.couchService.getBlockByPreviousHash(previousHash)
+      .subscribe(result => this.blocks = result.docs);
+  }
 }
