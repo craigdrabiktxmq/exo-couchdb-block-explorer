@@ -10,3 +10,15 @@ body {
 .mat-card {
   margin-top: 24px;
 }
+
+.block-row {
+  padding: 8px;
+}
+
+.block-transaction {
+  margin: 8px;
+}
+
+.block-transaction:nth-child(2n) {
+  background-color: #f0f0f0;
+}

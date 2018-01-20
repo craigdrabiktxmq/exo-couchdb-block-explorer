@@ -22,18 +22,22 @@
     </div>
     <div fxLayout="row" class="block-row">
       <div fxFlex="150px">Transactions</div>
-      <div class="block-value" fxFlex></div>
+      <div class="block-value"></div>
     </div>
-    <div fxLayout="row" class="block-row" *ngFor="let transaction of block.contents.transactions">
-        <div fxFlex="150px"></div>
-        <div fxFlex>
-            <div fxFlex="150px">Transaction Type</div>
-            <div fxFlex>{{transaction.transactionType.value}}</div>
-        </div>
-        <div fxFlex>
+    <div fxLayout="row" class="block-row">
+      <div fxFlex="150px"></div>
+      <div class="block-value" fxFlex>
+        <div class="block-transaction" *ngFor="let transaction of block.contents.transactions">
+          <div fxLayout="row" class="block-row">
+              <div fxFlex="150px">Transaction Type</div>
+              <div fxFlex>{{transaction.transactionType.value}}</div>
+          </div>
+          <div fxLayout="row" class="block-row">
             <div fxFlex="150px">Transaction Payload</div>
             <div fxFlex>{{transaction.payload | json}}</div>
+          </div>
         </div>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>
