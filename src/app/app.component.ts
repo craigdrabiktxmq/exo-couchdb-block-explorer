@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CouchdbService } from './couchdb.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+
+  public databases: Array<string>;
+
+  constructor(private couchService: CouchdbService) {
+    couchService.getDatabases().subscribe(result => this.databases = result);
+  }
 }
