@@ -26,6 +26,7 @@ a {
 
 .results-column {
   padding: 0 24px 24px;
+  overflow-y: auto;
 }
 
 .mat-card {
@@ -38,7 +39,12 @@ a {
 }
 
 .block-row {
-  padding: 8px;
+  padding: 4px 8px;
+}
+
+.block-row div:nth-child(2) {
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 12px;
 }
 
 .block-transaction {

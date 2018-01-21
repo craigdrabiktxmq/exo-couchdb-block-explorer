@@ -7,7 +7,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { AppComponent } from './app.component';
 import { CouchdbService } from './couchdb.service';
 
@@ -23,6 +25,9 @@ import { CouchdbService } from './couchdb.service';
     MatCheckboxModule,
     MatSelectModule,
     MatCardModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
     FlexLayoutModule
   ],
   providers: [CouchdbService],

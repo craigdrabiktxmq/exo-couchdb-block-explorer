@@ -12,6 +12,14 @@ export class AppComponent {
   public selectedDatabase: string;
   public blocks: Array<any>;
 
+  public get hasNextPage(): boolean {
+    return this.couchService.hasNextPage;
+  }
+
+  public get hasPreviousPage(): boolean {
+    return this.couchService.hasPreviousPage;
+  }
+
   constructor(private couchService: CouchdbService) {
     couchService.getDatabases().subscribe(result => this.databases = result);
   }
@@ -19,12 +27,20 @@ export class AppComponent {
   public onDbChanged(event: any): void {
     this.selectedDatabase = event.value;
     this.couchService.currentDatabase = this.selectedDatabase;
-    this.couchService.getBlockByPreviousHash('GENESIS_BLOCK')
-      .subscribe(result => this.blocks = result.docs);
+    this.couchService.getBlocks()
+      .subscribe(result => this.blocks = result);
   }
 
   public showBlockByPreviousHash(previousHash: string): void {
     this.couchService.getBlockByPreviousHash(previousHash)
-      .subscribe(result => this.blocks = result.docs);
+      .subscribe(result => this.blocks = result);
+  }
+
+  public showPreviousPage() {
+    this.couchService.getPreviousPage().subscribe(result => this.blocks = result);
+  }
+
+  public showNextPage() {
+    this.couchService.getNextPage().subscribe(result => this.blocks = result);
   }
 }

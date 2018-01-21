@@ -5,6 +5,21 @@
     </mat-select>
   </div>
   <div fxFlex class="results-column">
+    <mat-toolbar color="primary">
+      <div fxLayout="row" fxFlex>
+        <div>
+          <button mat-mini-fab (click)="showPreviousPage()" [disabled]="!hasPreviousPage">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+          </button>
+        </div>
+        <div fxFlex></div>
+        <div>
+            <button mat-mini-fab (click)="showNextPage()" [disabled]="!hasNextPage">
+              <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
+          </div>
+        </div>
+    </mat-toolbar>
     <div *ngIf="blocks">
       <mat-card *ngFor="let block of blocks">
           <mat-card-header>
@@ -47,3 +62,4 @@
   </div>
 </div>
 
+{{blocks}}
