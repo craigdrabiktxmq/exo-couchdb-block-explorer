@@ -25,8 +25,11 @@ a {
 }
 
 .results-column {
-  padding: 0 24px 24px;
   overflow-y: auto;
+}
+
+.results-contents {
+  padding: 0 24px 24px;
 }
 
 .mat-card {
