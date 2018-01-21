@@ -1,0 +1,26 @@
+<mat-toolbar color="primary" *ngIf="block">
+  <div fxLayout="row" fxFlex>
+    <div>
+      <button   mat-mini-fab
+                [disabled]="block.contents.previousBlockHash === 'GENESIS_BLOCK'"
+                (click)="showPreviousBlock()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+    </div>
+    <div fxFlex></div>
+    <div>
+        <button mat-mini-fab (click)="showNextBlock()" >
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+      </div>
+    </div>
+</mat-toolbar>
+<div class="results-contents">
+  <app-block [block]="block" *ngIf="block !== undefined"></app-block>
+  <mat-card *ngIf="!block">
+    <mat-card-content>
+      The requested block could not be found.  It's possible that this is an integrity problem with the chain data, but more likely that you requested the next block from the end of the chain.
+    </mat-card-content>
+  </mat-card>
+</div>
+

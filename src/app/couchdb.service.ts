@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 import { HttpParams } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/observable/merge';
 
 @Injectable()
 export class CouchdbService {
@@ -138,7 +140,6 @@ export class CouchdbService {
   }
 */
   public getBlockByPreviousHash(previousHash: string): Observable<any> {
-
     const url = this._couchDBUrl + this._currentDatabase + '/_find';
     return this.httpClient.post( url, {
       selector: {
@@ -146,12 +147,25 @@ export class CouchdbService {
           '$eq': previousHash
         }
       }
-    });
+    }).pipe(map((result: any) => result.docs[0]));
+  }
+
+  public getBlockByHash(hash: string): Observable<any> {
+    const url = this._couchDBUrl + this._currentDatabase + '/_find';
+    return this.httpClient.post( url, {
+      selector: {
+        'hash': {
+          '$eq': hash
+        }
+      }
+    }).pipe(map((result: any) => result.docs[0]));
   }
 
   private createIndexes(): Observable<any> {
     const url = this._couchDBUrl + this._currentDatabase + '/_index';
-    const createIndexPayload = {
+    const observables: Array<Observable<any>> = [];
+
+    let createIndexPayload = {
       'index': {
          'fields': [
             'index'
@@ -161,6 +175,32 @@ export class CouchdbService {
       'type': 'json'
     };
 
-    return this.httpClient.post(url, createIndexPayload);
+    observables.push(this.httpClient.post(url, createIndexPayload));
+
+    createIndexPayload = {
+      'index': {
+         'fields': [
+            'hash'
+         ]
+      },
+      'name': 'blocks-by-hash',
+      'type': 'json'
+    };
+
+    observables.push(this.httpClient.post(url, createIndexPayload));
+
+    createIndexPayload = {
+      'index': {
+         'fields': [
+            'contents.previousHash'
+         ]
+      },
+      'name': 'blocks-by-previousHash',
+      'type': 'json'
+    };
+
+    observables.push(this.httpClient.post(url, createIndexPayload));
+
+    return Observable.merge(...observables);
   }
 }

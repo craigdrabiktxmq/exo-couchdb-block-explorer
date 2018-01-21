@@ -36,11 +36,6 @@ export class BlockPageComponent {
     this.couchService.getBlocks().subscribe(result => this.blocks = result);
   }
 
-  public showBlockByPreviousHash(previousHash: string): void {
-    this.couchService.getBlockByPreviousHash(previousHash)
-      .subscribe(result => this.blocks = result);
-  }
-
   public showPreviousPage() {
     this.couchService.getPreviousPage().subscribe(result => this.blocks = result);
   }

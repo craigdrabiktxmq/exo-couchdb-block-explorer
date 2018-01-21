@@ -16,9 +16,12 @@ import { BlockPageComponent } from './block-page/block-page.component';
 import { AboutComponent } from './about/about.component';
 import { FiltersComponent } from './filters/filters.component';
 import { RouterModule, Routes } from '@angular/router';
+import { BlockComponent } from './block/block.component';
+import { SingleBlockComponent } from './single-block/single-block.component';
 
 const routes: Routes = [
   { path: 'databases/:databaseId/blocks', component: BlockPageComponent },
+  { path: 'databases/:databaseId/block', component: SingleBlockComponent },
   { path: '**', component: AboutComponent }
 ];
 
@@ -27,7 +30,9 @@ const routes: Routes = [
     AppComponent,
     BlockPageComponent,
     FiltersComponent,
-    AboutComponent
+    AboutComponent,
+    BlockComponent,
+    SingleBlockComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
