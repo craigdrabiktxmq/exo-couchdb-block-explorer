@@ -1,0 +1,3 @@
+<mat-select placeholder="Select Database" [value]="selectedDatabase" (change)="onDbChanged($event)">
+    <mat-option *ngFor="let db of databases" [value]="db">{{db}}</mat-option>
+</mat-select>

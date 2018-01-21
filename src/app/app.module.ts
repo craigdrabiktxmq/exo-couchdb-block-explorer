@@ -12,10 +12,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AppComponent } from './app.component';
 import { CouchdbService } from './couchdb.service';
+import { BlockPageComponent } from './block-page/block-page.component';
+import { FiltersComponent } from './filters/filters.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BlockPageComponent,
+    FiltersComponent
   ],
   imports: [
     BrowserModule,

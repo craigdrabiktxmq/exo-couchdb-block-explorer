@@ -31,6 +31,11 @@ export class CouchdbService {
     }
   }
 
+  private _currentDatabaseObservable: Subject<string> = new Subject();
+  public get currentDatabaseObservable(): Observable<string> {
+    return this._currentDatabaseObservable;
+  }
+
   private _currentDatabase: string;
   public get currentDatabase(): string {
     return this._currentDatabase;
@@ -38,6 +43,7 @@ export class CouchdbService {
 
   public set currentDatabase(databaseName: string) {
     this._currentDatabase = databaseName;
+    this._currentDatabaseObservable.next(databaseName);
   }
 
 
@@ -76,13 +82,25 @@ export class CouchdbService {
     const url = this._couchDBUrl + this._currentDatabase + '/_find';
     const query = this.sortAscending ? this.getPageAscendingQuery() : this.getPageAscendingQuery();
     this.httpClient.post(url, query)
-      .subscribe((result: any) => {
-        if (isNextPage && result.docs.length === 6) {
-          this.pages[this.currentPage + 1] = result.docs[5].index;
+      .subscribe(
+        (result: any) => {
+          if (isNextPage && result.docs.length === 6) {
+            this.pages[this.currentPage + 1] = result.docs[5].index;
+          }
+          subject.next(result.docs.slice(0, 5));
+          subject.complete();
+        },
+        (error: any) => {
+          if (error.error.error === 'no_usable_index') {
+            // The index we need hasn't been created yet, so create it
+            this.createIndexes().subscribe(result => {
+              this.getBlockPage(isNextPage).subscribe(retryResult => {
+                subject.next(retryResult);
+                subject.complete();
+              });
+            });
+          }
         }
-        subject.next(result.docs.slice(0, 5));
-        subject.complete();
-      }
     );
 
     return subject;
@@ -131,4 +149,18 @@ export class CouchdbService {
     });
   }
 
+  private createIndexes(): Observable<any> {
+    const url = this._couchDBUrl + this._currentDatabase + '/_index';
+    const createIndexPayload = {
+      'index': {
+         'fields': [
+            'index'
+         ]
+      },
+      'name': 'blocks-by-index',
+      'type': 'json'
+    };
+
+    return this.httpClient.post(url, createIndexPayload);
+  }
 }
