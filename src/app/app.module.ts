@@ -18,7 +18,6 @@ import { FiltersComponent } from './filters/filters.component';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: 'databases/:databaseId/blocks/:page', component: BlockPageComponent },
   { path: 'databases/:databaseId/blocks', component: BlockPageComponent },
   { path: '**', component: AboutComponent }
 ];
