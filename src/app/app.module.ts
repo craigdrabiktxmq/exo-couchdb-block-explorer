@@ -13,15 +13,25 @@ import { MatButtonModule } from '@angular/material/button';
 import { AppComponent } from './app.component';
 import { CouchdbService } from './couchdb.service';
 import { BlockPageComponent } from './block-page/block-page.component';
+import { AboutComponent } from './about/about.component';
 import { FiltersComponent } from './filters/filters.component';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+  { path: 'databases/:databaseId/blocks/:page', component: BlockPageComponent },
+  { path: 'databases/:databaseId/blocks', component: BlockPageComponent },
+  { path: '**', component: AboutComponent }
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     BlockPageComponent,
-    FiltersComponent
+    FiltersComponent,
+    AboutComponent
   ],
   imports: [
+    RouterModule.forRoot(routes),
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,

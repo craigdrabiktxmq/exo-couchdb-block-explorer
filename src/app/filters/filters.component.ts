@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CouchdbService } from '../couchdb.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-filters',
@@ -10,16 +11,17 @@ export class FiltersComponent {
   public databases: Array<string>;
   public selectedDatabase: string;
 
-  constructor(private couchService: CouchdbService) {
+  constructor(  private couchService: CouchdbService,
+                private router: Router) {
     couchService.getDatabases().subscribe(result => this.databases = result);
+    couchService.currentDatabaseObservable.subscribe(currentDB => this.selectedDatabase = currentDB);
   }
 
 
   public onDbChanged(event: any): void {
     this.selectedDatabase = event.value;
     this.couchService.currentDatabase = this.selectedDatabase;
-//    this.couchService.getBlocks()
-//      .subscribe(result => this.blocks = result);
+    this.router.navigate(['databases/' + this.selectedDatabase + '/blocks']);
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CouchdbService } from '../couchdb.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-block-page',
@@ -18,10 +19,21 @@ export class BlockPageComponent {
     return this.couchService.hasPreviousPage;
   }
 
-  constructor(private couchService: CouchdbService) {
-    couchService.currentDatabaseObservable.subscribe(_ => {
-      this.couchService.getBlocks().subscribe(result => this.blocks = result);
+  constructor(private couchService: CouchdbService,
+              private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.params.subscribe(params => {
+      if (params.hasOwnProperty('databaseId')) {
+        this.couchService.currentDatabase = params['databaseId'];
+      }
     });
+
+    couchService.currentDatabaseObservable.subscribe(dbName => {
+      if (dbName) {
+        this.couchService.getBlocks().subscribe(result => this.blocks = result);
+      }
+    });
+
+    this.couchService.getBlocks().subscribe(result => this.blocks = result);
   }
 
   public showBlockByPreviousHash(previousHash: string): void {
