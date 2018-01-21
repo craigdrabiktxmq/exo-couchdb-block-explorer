@@ -1,3 +1,17 @@
-<mat-select placeholder="Select Database" [value]="selectedDatabase" (change)="onDbChanged($event)">
+<div class="label">
+  Database
+</div>
+<div class="input">
+  <mat-select placeholder="Select Database" [value]="selectedDatabase" (change)="onDbChanged($event)">
     <mat-option *ngFor="let db of databases" [value]="db">{{db}}</mat-option>
-</mat-select>
+  </mat-select>
+</div>
+<div class="label">
+  View
+</div>
+<div class="input">
+  <mat-select placeholder="Select View" [value]="viewBy" (change)="onViewChanged($event)">
+    <mat-option value="blocks">Page View</mat-option>
+    <mat-option value="block">Block View</mat-option>
+  </mat-select>
+</div>

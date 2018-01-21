@@ -18,6 +18,7 @@ import { FiltersComponent } from './filters/filters.component';
 import { RouterModule, Routes } from '@angular/router';
 import { BlockComponent } from './block/block.component';
 import { SingleBlockComponent } from './single-block/single-block.component';
+import { FilterService } from './filter.service';
 
 const routes: Routes = [
   { path: 'databases/:databaseId/blocks', component: BlockPageComponent },
@@ -48,7 +49,7 @@ const routes: Routes = [
     MatIconModule,
     FlexLayoutModule
   ],
-  providers: [CouchdbService],
+  providers: [CouchdbService, FilterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

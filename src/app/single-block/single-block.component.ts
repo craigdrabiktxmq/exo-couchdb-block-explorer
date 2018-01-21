@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CouchdbService } from '../couchdb.service';
+import { FilterService } from '../filter.service';
 
 @Component({
   selector: 'app-single-block',
@@ -13,7 +14,10 @@ export class SingleBlockComponent implements OnInit {
 
   constructor(  private router: Router,
                 private couchService: CouchdbService,
+                filterService: FilterService,
                 activatedRoute: ActivatedRoute) {
+
+    filterService.viewBy = 'block';
 
     activatedRoute.params.subscribe(params => {
       if (params.hasOwnProperty('databaseId')) {
@@ -22,6 +26,11 @@ export class SingleBlockComponent implements OnInit {
     });
 
     activatedRoute.queryParams.subscribe(params => {
+      if (!params.hasOwnProperty('hash') && !params.hasOwnProperty('previousHash')) {
+        this.couchService.getBlockByPreviousHash('GENESIS_BLOCK')
+          .subscribe(result => this.block = result);
+      }
+
       if (params.hasOwnProperty('hash')) {
         this.couchService.getBlockByHash(params.hash)
           .subscribe(result => this.block = result);

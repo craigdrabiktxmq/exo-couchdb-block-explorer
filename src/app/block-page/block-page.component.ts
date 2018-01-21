@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CouchdbService } from '../couchdb.service';
 import { ActivatedRoute } from '@angular/router';
+import { FilterService } from '../filter.service';
 
 @Component({
   selector: 'app-block-page',
@@ -20,7 +21,11 @@ export class BlockPageComponent {
   }
 
   constructor(private couchService: CouchdbService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              filterService: FilterService) {
+
+    filterService.viewBy = 'blocks';
+
     this.activatedRoute.params.subscribe(params => {
       if (params.hasOwnProperty('databaseId')) {
         this.couchService.currentDatabase = params['databaseId'];
