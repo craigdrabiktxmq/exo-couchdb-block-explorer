@@ -6,3 +6,12 @@
   padding: 0 16px 16px;
   border-bottom: 1px solid #fff;
 }
+
+.divider {
+  border-top: 1px solid #ccc;
+  padding-top: 16px;
+}
+
+.full-width {
+  width: 100%;
+}

@@ -19,10 +19,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { BlockComponent } from './block/block.component';
 import { SingleBlockComponent } from './single-block/single-block.component';
 import { FilterService } from './filter.service';
+import { OrphanedBlocksComponent } from './orphaned-blocks/orphaned-blocks.component';
 
 const routes: Routes = [
   { path: 'databases/:databaseId/blocks', component: BlockPageComponent },
   { path: 'databases/:databaseId/block', component: SingleBlockComponent },
+  { path: 'databases/:databaseId/test', component: OrphanedBlocksComponent },
   { path: '**', component: AboutComponent }
 ];
 
@@ -33,7 +35,8 @@ const routes: Routes = [
     FiltersComponent,
     AboutComponent,
     BlockComponent,
-    SingleBlockComponent
+    SingleBlockComponent,
+    OrphanedBlocksComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

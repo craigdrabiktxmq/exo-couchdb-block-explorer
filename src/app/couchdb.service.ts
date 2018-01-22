@@ -150,6 +150,17 @@ export class CouchdbService {
     }).pipe(map((result: any) => result.docs[0]));
   }
 
+  public getBlocksByPreviousHash(previousHash: string): Observable<any> {
+    const url = this._couchDBUrl + this._currentDatabase + '/_find';
+    return this.httpClient.post( url, {
+      selector: {
+        'contents.previousBlockHash': {
+          '$eq': previousHash
+        }
+      }
+    }).pipe(map((result: any) => result.docs));
+  }
+
   public getBlockByHash(hash: string): Observable<any> {
     const url = this._couchDBUrl + this._currentDatabase + '/_find';
     return this.httpClient.post( url, {
@@ -159,6 +170,70 @@ export class CouchdbService {
         }
       }
     }).pipe(map((result: any) => result.docs[0]));
+  }
+
+  public testChainIntegrity(): Observable<Array<any>> {
+    const subject: Subject<any> = new Subject();
+    const chain: any = {};
+    const forks: Array<string> = [];
+    const orphans: Array<string> = [];
+
+    this.testBlock('GENESIS_BLOCK', chain, forks).subscribe(_ => {
+      this.currentPage = -1;
+      this.sortAscending = true;
+      this.pages = [0];
+      this.testPageForOrphanedBlocks(chain, orphans).subscribe(() => {
+        subject.next({orphans: orphans, forks: forks});
+        subject.complete();
+      });
+    });
+
+    return subject;
+  }
+
+  private testBlock(previousBlockHash: string, chain: any, forks: Array<string>): Observable<any> {
+    const subject: Subject<any> = new Subject();
+    this.getBlocksByPreviousHash(previousBlockHash).subscribe(blocks => {
+      if (blocks.length <= 1) {
+        const block: any = blocks[0];
+        if (block) {
+          chain[block.hash] = { hash: block.hash, prevHash: block.contents.previousBlockHash };
+          this.testBlock(block.hash, chain, forks).subscribe(_ => {
+            subject.next();
+            subject.complete();
+          });
+        } else {
+          subject.next();
+          subject.complete();
+        }
+      } else {
+
+      }
+    });
+
+    return subject;
+  }
+
+  private testPageForOrphanedBlocks(chain: any, orphans: Array<string>): Observable<any> {
+    const subject: Subject<any> = new Subject();
+    this.getNextPage().subscribe(page => {
+      page.forEach(block => {
+        if (!chain[block.hash]) {
+          orphans.push(block);
+        }
+      });
+      if (page.length === 6) {
+        this.testPageForOrphanedBlocks(chain, orphans).subscribe(_ => {
+          subject.next();
+          subject.complete();
+        });
+      } else {
+        subject.next();
+        subject.complete();
+      }
+    });
+
+    return subject;
   }
 
   private createIndexes(): Observable<any> {
