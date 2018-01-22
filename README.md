@@ -1,27 +1,18 @@
-# BlockExporer
+Exo CouchDB Block Exporer
+===========================
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.5.
+This application is a simple block explorer for the CouchDB implementation of Exo blockchain transaction logging.  It's pretty low-rent at the moment, but it works as a basic testing and debugging tool.
 
-## Development server
+How To Use
+----------
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Before using, open up Fauxton and enable CORS support.  Assuming you're running the [Exo Demo Project](https://github.com/craigdrabiktxmq/exo-demo) from Docker, you can point your browser at (http://localhost:5984/_utils) to launch Fauxton.  Click on the gear icon, then select CORS.  Enable CORS and either add localhost to the whitelist, or select "All Domains".
 
-## Code scaffolding
+Launch the application.  Until I get a dockerfile in place, install angular CLI and run:
+```
+npm install
+ng serve
+``` 
+Once the application finishes building, point your browser at (http://localhost:4200)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
