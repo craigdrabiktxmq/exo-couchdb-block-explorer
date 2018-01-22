@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CouchdbService } from '../couchdb.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FilterService } from '../filter.service';
+import { DialogsService } from '../dialogs.service';
 
 @Component({
   selector: 'app-filters',
@@ -15,10 +16,13 @@ export class FiltersComponent {
 
   constructor(  private couchService: CouchdbService,
                 private filterService: FilterService,
-                private router: Router) {
+                private router: Router,
+                dialogs: DialogsService) {
 
-    couchService.getDatabases().subscribe(result => this.databases = result);
-    couchService.currentDatabaseObservable.subscribe(currentDB => this.selectedDatabase = currentDB);
+    dialogs.loginObservable.subscribe(() => {
+      couchService.getDatabases().subscribe(result => this.databases = result);
+      couchService.currentDatabaseObservable.subscribe(currentDB => this.selectedDatabase = currentDB);
+    });
 
     filterService.viewByObservable.subscribe(viewBy => {
       this.viewBy = viewBy;

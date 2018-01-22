@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CouchdbService } from './couchdb.service';
+import { DialogsService } from './dialogs.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,8 @@ import { CouchdbService } from './couchdb.service';
 })
 export class AppComponent {
 
-  constructor() { }
+  constructor(dialogs:DialogsService) {
+    dialogs.loginDialog();
+   }
 
 }

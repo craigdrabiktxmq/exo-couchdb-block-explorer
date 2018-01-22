@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Log In</h1>
+<mat-dialog-content>
+  <mat-form-field>
+    <input  matInput
+            [value]="databaseUrl"
+            (blur)="databaseUrl = $event.target.value">
+  </mat-form-field>
+  <mat-form-field>
+    <input  matInput
+            placeholder="Username"
+            [value]="username"
+            (blur)="username = $event.target.value">
+  </mat-form-field>
+  <mat-form-field>
+    <input  matInput
+            placeholder="Password"
+            type="password"
+            [value]="password"
+            (blur)="password = $event.target.value">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="login()">Log In</button>
+</mat-dialog-actions>
