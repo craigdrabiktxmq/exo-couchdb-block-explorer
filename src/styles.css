@@ -19,7 +19,7 @@ a {
 }
 
 .controls-column {
-  background-color: #f0f0f0;
+  background-color: #f5f5f5;
   min-height: 100%;
 }
 
@@ -54,5 +54,5 @@ a {
 }
 
 .block-transaction:nth-child(2n) {
-  background-color: #f0f0f0;
+  background-color: #f5f5f5;
 }

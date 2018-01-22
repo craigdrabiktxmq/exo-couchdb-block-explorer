@@ -1,13 +1,13 @@
-<mat-toolbar color="primary">
+<mat-toolbar>
   <div fxLayout="row" fxFlex>
     <div>
-      <button mat-mini-fab (click)="showPreviousPage()" [disabled]="!hasPreviousPage">
+      <button mat-mini-fab color="primary" (click)="showPreviousPage()" [disabled]="!hasPreviousPage">
         <mat-icon>keyboard_arrow_left</mat-icon>
       </button>
     </div>
     <div fxFlex></div>
     <div>
-        <button mat-mini-fab (click)="showNextPage()" [disabled]="!hasNextPage">
+        <button mat-mini-fab color="primary" (click)="showNextPage()" [disabled]="!hasNextPage">
           <mat-icon>keyboard_arrow_right</mat-icon>
         </button>
       </div>
