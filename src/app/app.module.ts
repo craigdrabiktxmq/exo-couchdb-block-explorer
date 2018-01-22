@@ -20,6 +20,10 @@ import { BlockComponent } from './block/block.component';
 import { SingleBlockComponent } from './single-block/single-block.component';
 import { FilterService } from './filter.service';
 import { OrphanedBlocksComponent } from './orphaned-blocks/orphaned-blocks.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { LoginDialogComponent } from './login-dialog/login-dialog.component';
+import { DialogsService } from './dialogs.service';
+import { MatInputModule } from '@angular/material/input';
 
 const routes: Routes = [
   { path: 'databases/:databaseId/blocks', component: BlockPageComponent },
@@ -36,7 +40,8 @@ const routes: Routes = [
     AboutComponent,
     BlockComponent,
     SingleBlockComponent,
-    OrphanedBlocksComponent
+    OrphanedBlocksComponent,
+    LoginDialogComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -50,9 +55,12 @@ const routes: Routes = [
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
+    MatDialogModule,
+    MatInputModule,
     FlexLayoutModule
   ],
-  providers: [CouchdbService, FilterService],
+  entryComponents: [LoginDialogComponent],
+  providers: [CouchdbService, FilterService, DialogsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
